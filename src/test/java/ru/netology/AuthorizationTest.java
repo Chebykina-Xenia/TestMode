@@ -18,9 +18,9 @@ public class AuthorizationTest {
     //пользователь с таким логином и паролем существует — активен
     @Test
     public void shouldSendCorrectForm() {
-        UserInfo infoUser = createUser("active");
-        $("[name='login']").setValue(infoUser.getLogin());
-        $("[name='password']").setValue(infoUser.getPassword());
+        var registeredUser = UserInfo.createUser("active");
+        $("[name='login']").setValue(registeredUser.getLogin());
+        $("[name='password']").setValue(registeredUser.getPassword());
         $(".button").click();
         $(byText("Личный кабинет")).shouldBe(Condition.visible);
     }
@@ -28,9 +28,9 @@ public class AuthorizationTest {
     //пользователь с таким логином и паролем существует — заблокирован
     @Test
     public void shouldStatusBlocked() {
-        UserInfo infoUser = createUser("blocked");
-        $("[name='login']").setValue(infoUser.getLogin());
-        $("[name='password']").setValue(infoUser.getPassword());
+        var registeredUser = UserInfo.createUser("blocked");
+        $("[name='login']").setValue(registeredUser.getLogin());
+        $("[name='password']").setValue(registeredUser.getPassword());
         $(".button").click();
         $(byText("Пользователь заблокирован")).shouldBe(Condition.visible);
     }
@@ -38,7 +38,7 @@ public class AuthorizationTest {
     //пользователя не зарегистрирован
     @Test
     public void shouldNotRegistered() {
-        UserInfo withoutInfoUser = withoutUserInfo("active");
+        var withoutInfoUser = UserInfo.withoutUserInfo("active");
         $("[name='login']").setValue(withoutInfoUser.getLogin());
         $("[name='password']").setValue(withoutInfoUser.getPassword());
         $(".button").click();
@@ -48,11 +48,11 @@ public class AuthorizationTest {
     //пользователь зарегистрирован, но ввёл неверный логин
     @Test
     public void shouldWrongLogin() {
-        UserInfo infoUser = createUser("active");
+        var withoutInfoUser = UserInfo.withoutUserInfo("active");
         //неправильный логин
-        var wrongLogin = randomLogin();
+        var wrongLogin = UserInfo.getRandomLogin();
         $("[name='login']").setValue(wrongLogin);
-        $("[name='password']").setValue(infoUser.getPassword());
+        $("[name='password']").setValue(withoutInfoUser.getPassword());
         $(".button").click();
         $(byText("Неверно указан логин или пароль")).shouldBe(Condition.visible);
     }
@@ -60,8 +60,8 @@ public class AuthorizationTest {
     //пользователь зарегистрирован, но ввёл неверный пароль
     @Test
     public void shouldWrongPassword() {
-        UserInfo infoUser = createUser("active");
-        var wrongPassword = randomPassword();
+        var infoUser = UserInfo.createUser("active");
+        var wrongPassword = UserInfo.getRandomPassword();
         $("[name='login']").setValue(wrongPassword);
         $("[name='password']").setValue(infoUser.getPassword());
         $(".button").click();
