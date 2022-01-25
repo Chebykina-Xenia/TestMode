@@ -8,6 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.util.Locale;
 
@@ -66,9 +67,7 @@ public class UserInfo {
         return registeredUser;
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Value
     public static class UserAuthorizationInfo {
         private String login;
         private String password;
